@@ -38,6 +38,18 @@ export class AuthService {
     return this.buildResponse(user);
   }
 
+  verifyToken(token: string): string {
+    try {
+      const payload = jwt.verify(token, this.jwtSecret);
+      if (typeof payload === 'string' || typeof payload.sub !== 'string') {
+        throw new AppError(401, 'Token inválido');
+      }
+      return payload.sub;
+    } catch {
+      throw new AppError(401, 'Token inválido o expirado');
+    }
+  }
+
   private buildResponse(user: User): AuthResponse {
     const accessToken = jwt.sign({ sub: user.id }, this.jwtSecret, {
       expiresIn: '15m',

@@ -1,5 +1,7 @@
+import { InMemoryNoteRepository } from '../repositories/note.repository';
 import { InMemoryUserRepository } from '../repositories/user.repository';
 import { AuthService } from '../services/auth.service';
+import { NoteService } from '../services/note.service';
 
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
@@ -7,5 +9,7 @@ if (!jwtSecret) {
 }
 
 const userRepository = new InMemoryUserRepository();
+const noteRepository = new InMemoryNoteRepository();
 
 export const authService = new AuthService(userRepository, jwtSecret);
+export const noteService = new NoteService(noteRepository);
