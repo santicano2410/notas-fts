@@ -11,31 +11,43 @@ const password = ref('')
 async function onSubmit(): Promise<void> {
   const ok = await auth.login(email.value, password.value)
   if (ok) {
-    await router.push('/')
+    await router.push('/notes')
   }
 }
 </script>
 
 <template>
-  <section class="login">
-    <h2>Iniciar sesión</h2>
+  <section class="card auth">
+    <div>
+      <h2 class="auth__title">Iniciar sesión</h2>
+      <p class="muted">Accede para ver y buscar tus notas.</p>
+    </div>
+
     <form @submit.prevent="onSubmit">
-      <div>
+      <div class="field">
         <label for="email">Correo</label>
-        <input id="email" v-model="email" type="email" autocomplete="username" required />
+        <input
+          id="email"
+          v-model="email"
+          class="input"
+          type="email"
+          autocomplete="username"
+          required
+        />
       </div>
-      <div>
+      <div class="field">
         <label for="password">Contraseña</label>
         <input
           id="password"
           v-model="password"
+          class="input"
           type="password"
           autocomplete="current-password"
           required
         />
       </div>
-      <p v-if="auth.error" role="alert">{{ auth.error }}</p>
-      <button type="submit" :disabled="auth.loading">
+      <p v-if="auth.error" class="alert" role="alert">{{ auth.error }}</p>
+      <button class="btn btn--primary" type="submit" :disabled="auth.loading">
         {{ auth.loading ? 'Ingresando...' : 'Ingresar' }}
       </button>
     </form>
