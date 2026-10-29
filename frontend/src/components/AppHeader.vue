@@ -10,6 +10,7 @@ const auth = useAuthStore()
     <h1 class="header__title">Notas FTS</h1>
     <nav class="header__nav">
       <RouterLink to="/">Inicio</RouterLink>
+      <RouterLink v-if="auth.isAuthenticated" to="/notes">Notas</RouterLink>
       <RouterLink to="/about">Acerca de</RouterLink>
       <RouterLink v-if="!auth.isAuthenticated" to="/login">Ingresar</RouterLink>
       <template v-else>
