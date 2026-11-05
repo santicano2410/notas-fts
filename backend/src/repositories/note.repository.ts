@@ -14,9 +14,7 @@ export class InMemoryNoteRepository implements NoteRepository {
   private notes: Note[] = [];
 
   async findAllByUser(userId: string): Promise<Note[]> {
-    return this.notes
-      .filter((note) => note.userId === userId)
-      .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+    return this.notes.filter((note) => note.userId === userId);
   }
 
   async findById(id: string): Promise<Note | null> {
@@ -30,6 +28,9 @@ export class InMemoryNoteRepository implements NoteRepository {
       userId,
       title: input.title,
       content: input.content,
+      category: input.category,
+      tags: input.tags,
+      favorite: input.favorite,
       createdAt: now,
       updatedAt: now,
     };
@@ -46,6 +47,9 @@ export class InMemoryNoteRepository implements NoteRepository {
       ...current,
       title: input.title,
       content: input.content,
+      category: input.category,
+      tags: input.tags,
+      favorite: input.favorite,
       updatedAt: new Date(),
     };
     this.notes = this.notes.map((note) => (note.id === id ? updated : note));

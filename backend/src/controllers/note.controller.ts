@@ -8,8 +8,8 @@ import {
 } from '../schemas/note.schema';
 
 export const listNotes = async (req: Request, res: Response): Promise<void> => {
-  const { q } = noteQuerySchema.parse(req.query);
-  const notes = await noteService.list(getUserId(res), q);
+  const filters = noteQuerySchema.parse(req.query);
+  const notes = await noteService.list(getUserId(res), filters);
   res.json(notes);
 };
 
