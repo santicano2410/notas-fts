@@ -494,3 +494,162 @@ mark {
     width: 100%;
   }
 }
+
+/* Filtros */
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+}
+
+.select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.searchbar {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.searchbar .select {
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip-btn {
+  --cat: var(--accent);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.chip-btn:hover {
+  color: var(--text);
+  border-color: var(--cat);
+}
+
+.chip-btn.is-active {
+  color: #fff;
+  background: var(--cat);
+  border-color: var(--cat);
+}
+
+.filters__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.filters__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cat--personal {
+  --cat: #3b82f6;
+}
+
+.cat--estudio {
+  --cat: #8b5cf6;
+}
+
+.cat--trabajo {
+  --cat: #f59e0b;
+}
+
+.cat--ideas {
+  --cat: #10b981;
+}
+
+.cat--otros {
+  --cat: #64748b;
+}
+
+.cat-badge {
+  --cat: var(--accent);
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cat);
+  background: color-mix(in srgb, var(--cat) 16%, transparent);
+}
+
+.note__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.star {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.star.is-on {
+  color: #f5b301;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  border: none;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tag:hover {
+  color: var(--accent);
+}

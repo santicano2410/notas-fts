@@ -2,20 +2,65 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 
+export const CATEGORIES = [
+  { value: 'personal', label: 'Personal' },
+  { value: 'estudio', label: 'Estudio' },
+  { value: 'trabajo', label: 'Trabajo' },
+  { value: 'ideas', label: 'Ideas' },
+  { value: 'otros', label: 'Otros' },
+] as const
+
+export type NoteCategory = (typeof CATEGORIES)[number]['value']
+export type SearchScope = 'all' | 'title' | 'content'
+export type SortOrder = 'recent' | 'oldest' | 'title'
+
 export interface Note {
   id: string
   title: string
   content: string
+  category: NoteCategory
+  tags: string[]
+  favorite: boolean
   createdAt: string
   updatedAt: string
 }
 
-interface NoteInput {
+export interface NoteInput {
   title: string
   content: string
+  category: NoteCategory
+  tags: string[]
+  favorite: boolean
+}
+
+export interface NoteFilters {
+  q: string
+  scope: SearchScope
+  category: NoteCategory | ''
+  tag: string
+  favorite: boolean
+  from: string
+  to: string
+  sort: SortOrder
 }
 
 const API_URL = 'http://localhost:3000'
+
+function buildQuery(filters: NoteFilters): string {
+  const params = new URLSearchParams()
+  const q = filters.q.trim()
+  const tag = filters.tag.trim()
+  if (q) params.set('q', q)
+  if (filters.scope !== 'all') params.set('scope', filters.scope)
+  if (filters.category) params.set('category', filters.category)
+  if (tag) params.set('tag', tag)
+  if (filters.favorite) params.set('favorite', 'true')
+  if (filters.from) params.set('from', filters.from)
+  if (filters.to) params.set('to', filters.to)
+  if (filters.sort !== 'recent') params.set('sort', filters.sort)
+  const text = params.toString()
+  return text ? `?${text}` : ''
+}
 
 export const useNotesStore = defineStore('notes', () => {
   const notes = ref<Note[]>([])
@@ -33,13 +78,11 @@ export const useNotesStore = defineStore('notes', () => {
     })
   }
 
-  async function fetchNotes(query = ''): Promise<void> {
+  async function fetchNotes(filters: NoteFilters): Promise<void> {
     loading.value = true
     error.value = null
     try {
-      const term = query.trim()
-      const params = term ? `?q=${encodeURIComponent(term)}` : ''
-      const response = await request(`/notes${params}`)
+      const response = await request(`/notes${buildQuery(filters)}`)
       if (!response.ok) {
         error.value = 'No se pudieron cargar las notas'
         return
